@@ -75,11 +75,11 @@ class twitter_views_handler_field_xss_sc extends views_handler_field {
   public function render($values) {
     $value = $values->{$this->field_alias};
     if (!empty($this->options['link_urls'])) {
-      $filter = new stdClass;
+      $filter = new stdClass();
       $filter->settings = array(
         'filter_url_length' => 496,
       );
-     $value = _filter_url($value, $filter);
+      $value = _filter_url($value, $filter);
     }
     if (!empty($this->options['link_usernames'])) {
       $value = _twitter_filter_special_chars_filter_text($value, '@', variable_get('twitter_host', TWITTER_HOST) . '/');
@@ -94,10 +94,16 @@ class twitter_views_handler_field_xss_sc extends views_handler_field {
 if (!class_exists('twitter_views_handler_field_profile_image')) {
 
   /**
-   * Field handler to provide simple renderer that turns a URL into a clickable link.
+   * Field handler to provide renderer that turns URL into a link.
    */
   class twitter_views_handler_field_profile_image extends views_handler_field {
 
+    /**
+     * Render the field.
+     *
+     * @param stdClass $values
+     *   The values retrieved from the database.
+     */
     public function render($values) {
       $value = $values->{$this->field_alias};
       return theme('image', array('path' => $value));
