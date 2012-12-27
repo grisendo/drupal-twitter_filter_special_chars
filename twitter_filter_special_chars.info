@@ -1,2 +1,6 @@
 name = Twitter Filter Special Chars
-
+core = 7.x
+dependencies[] = views
+dependencies[] = twitter
+package = Other
+files[] = views/twitter_views_field_handlers_sc.inc

@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Fixes Twitter hashtag special chars problems.
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function twitter_filter_special_chars_views_api() {
+
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'twitter_filter_special_chars') . '/views',
+  );
+
+}
+
+function twitter_filter_special_chars_filter_info_alter(&$info) {
+
+  $info['twitter_username']['process callback'] = '_twitter_filter_special_chars_filter_username';
+  $info['twitter_hashtag']['process callback'] = '_twitter_filter_special_chars_filter_hashtag';
+
+}
+
+function _twitter_filter_special_chars_filter_username($text, $filter) {
+
+  $prefix = '@';
+  $destination = variable_get('twitter_search', TWITTER_SEARCH) . '/';
+  return _twitter_filter_special_chars_filter_text($text, $prefix, $destination);
+
+}
+
+function _twitter_filter_special_chars_filter_hashtag($text, $filter) {
+
+  $prefix = '#';
+  $destination = variable_get('twitter_search', TWITTER_SEARCH) . '/search?q=%23';
+  return _twitter_filter_special_chars_filter_text($text, $prefix, $destination);
+
+}
+
+function _twitter_filter_special_chars_filter_text($text, $prefix, $destination) {
+
+  $matches = array(
+    '/\>' . $prefix . '([a-z0-9Á-Úá-ú_]+)/i',
+    '/^' . $prefix . '([a-z0-9Á-Úá-ú_]+)/i',
+    '/(\s+)' . $prefix . '([a-z0-9Á-Úá-ú_]+)/i',
+  );
+  $replacements = array(
+    '><a href="' . $destination . '${1}" target="_blank">' . $prefix . '${1}</a>',
+    '<a href="' . $destination . '${1}" target="_blank">' . $prefix . '${1}</a>',
+    '${1}<a href="' . $destination . '${2}" target="_blank">' . $prefix . '${2}</a>',
+  );
+  return preg_replace($matches, $replacements, $text);
+
+}
