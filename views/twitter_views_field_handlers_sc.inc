@@ -8,7 +8,8 @@
  * Process Twitter-style @usernames and URLs before filtering XSS.
  */
 class twitter_views_handler_field_xss_sc extends views_handler_field {
-  function option_definition() {
+
+  public function option_definition() {
     $options = parent::option_definition();
     $options['link_urls'] = array('default' => TRUE);
     $options['link_usernames'] = array('default' => TRUE);
@@ -17,7 +18,7 @@ class twitter_views_handler_field_xss_sc extends views_handler_field {
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['link_urls'] = array(
       '#title' => t('Link urls to their destinations'),
@@ -42,7 +43,7 @@ class twitter_views_handler_field_xss_sc extends views_handler_field {
     );
   }
 
-  function render($values) {
+  public function render($values) {
     $value = $values->{$this->field_alias};
     if (!empty($this->options['link_urls'])) {
       $filter = new stdClass;
@@ -62,10 +63,14 @@ class twitter_views_handler_field_xss_sc extends views_handler_field {
 }
 
 if (!class_exists('twitter_views_handler_field_profile_image')) {
+
   class twitter_views_handler_field_profile_image extends views_handler_field {
-    function render($values) {
+
+    public function render($values) {
       $value = $values->{$this->field_alias};
       return theme('image', array('path' => $value));
     }
+
   }
+
 }

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Fixes Twitter hashtag special chars problems.
+ * Fixes special chars errors on Twitter Filter hashtags and usernames.
  */
 
 /**
@@ -27,6 +27,9 @@ function twitter_filter_special_chars_filter_info_alter(&$info) {
 
 }
 
+/**
+ * Callback for twitter @username converter
+ */
 function _twitter_filter_special_chars_filter_username($text, $filter) {
 
   $prefix = '@';
@@ -35,6 +38,9 @@ function _twitter_filter_special_chars_filter_username($text, $filter) {
 
 }
 
+/**
+ * Callback for twitter #hashtag converter
+ */
 function _twitter_filter_special_chars_filter_hashtag($text, $filter) {
 
   $prefix = '#';
@@ -43,6 +49,10 @@ function _twitter_filter_special_chars_filter_hashtag($text, $filter) {
 
 }
 
+/**
+ * This helper function converts Twitter-style @usernames and #hashtags into
+ * actual links.
+ */
 function _twitter_filter_special_chars_filter_text($text, $prefix, $destination) {
 
   $matches = array(
