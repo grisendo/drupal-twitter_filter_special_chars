@@ -1,6 +1,7 @@
 name = Twitter Filter Special Chars
+description = Fixes special chars errors on Twitter Filter hashtags and usernames
 core = 7.x
+package = Other
 dependencies[] = views
 dependencies[] = twitter
-package = Other
 files[] = views/twitter_views_field_handlers_sc.inc

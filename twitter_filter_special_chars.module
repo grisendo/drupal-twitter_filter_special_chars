@@ -17,6 +17,9 @@ function twitter_filter_special_chars_views_api() {
 
 }
 
+/**
+ * Implements hook_filter_info_alter().
+ */
 function twitter_filter_special_chars_filter_info_alter(&$info) {
 
   $info['twitter_username']['process callback'] = '_twitter_filter_special_chars_filter_username';
